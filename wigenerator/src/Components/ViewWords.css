@@ -1,3 +1,7 @@
 #ViewWords {
     width: 100%;
+    align-items: center;
+}
+.center {
+    text-align: center;
 }
