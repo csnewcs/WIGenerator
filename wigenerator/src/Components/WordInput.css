@@ -1,0 +1,30 @@
+.wordInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.noBorder {
+    border: none;
+    outline: none;
+    text-align: center;
+}
+button {
+    cursor: pointer;
+}
+button:hover {
+    background-color: #9a9a9a;
+}
+.gray {
+    background-color: #aaa;
+}
+#textInput {
+    width: 85%;
+    font-size: 20px;
+}
+#input {
+    width: 15%;
+    font-size: 20px;
+}
+.height {
+    height: 9.8vh;
+}
