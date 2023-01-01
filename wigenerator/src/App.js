@@ -8,9 +8,9 @@ function App() {
   return (
     <div className="App">
       <SideBar />
-      <div>
-        <ViewWords />
+      <div id='main'>
         <WorldInput />
+        <ViewWords />
       </div>
     </div>
   );

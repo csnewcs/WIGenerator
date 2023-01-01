@@ -1,4 +1,10 @@
 .App {
   background-color: gray;
   display: flex;
+  height: 100vh;
+}
+#main {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
 }
