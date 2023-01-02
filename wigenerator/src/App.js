@@ -6,25 +6,29 @@ import SideBar from './Components/SideBar';
 import {React, useState} from "react";
 
 function App() {
-  const [wordCount, setWordCount] = useState(0);
   const [wordList, setWordList] = useState([])
-  const plusWordCount = () => {
-    setWordCount(wordCount + 1);
-  }
   const addWord = (text) => {
     if (wordList.includes(text)) {
       return;
     }
     let p = document.getElementById('words');
     p.innerHTML += '<br />' + text;
-    setWordList(wordList.concat(text))
-    plusWordCount()
+  }
+  const addSingleWord = (word) => {
+    addWord(word)
+    setWordList(wordList.concat(word))
+  }
+  const addMultiWords = (words) => {
+    for (let i = 0; i < words.length; i++) {
+      addWord(words[i])
+    }
+    setWordList(wordList.concat(words))
   }
   return (
     <div className="App">
-      <SideBar wordCount={wordCount}/>
+      <SideBar wordCount={wordList.length} addMultiWords={addMultiWords}/>
       <div id='main'>
-        <WorldInput addWord={addWord}/>
+        <WorldInput addWord={addSingleWord}/>
         <ViewWords />
       </div>
     </div>
