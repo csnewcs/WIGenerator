@@ -9,18 +9,22 @@ function App() {
   const [wordList, setWordList] = useState([])
   const addWord = (text) => {
     if (wordList.includes(text)) {
-      return;
+      return false;
     }
     let p = document.getElementById('words');
     p.innerHTML += '<br />' + text;
+    return true
   }
   const addSingleWord = (word) => {
-    addWord(word)
-    setWordList(wordList.concat(word))
+    if(addWord(word)) {
+      setWordList(wordList.concat(word))
+    }
   }
   const addMultiWords = (words) => {
     for (let i = 0; i < words.length; i++) {
-      addWord(words[i])
+      if(!addWord(words[i])) {
+        words.splice(i, 1)
+      }
     }
     setWordList(wordList.concat(words))
   }

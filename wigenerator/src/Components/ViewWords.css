@@ -1,7 +1,7 @@
 #ViewWords {
     width: 100%;
     align-items: center;
-    overflow: scroll;
+    overflow: auto;
 }
 .center {
     text-align: center;
