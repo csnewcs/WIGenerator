@@ -10,7 +10,8 @@
 #getWordsFromOnline {
     border: none;
     background-color: #dedede;
-    width: 100%
+    width: 100%;
+    font-size: 1em;
 }
 #getWordsFromOnline:hover {
     background-color: #cfcfcf;

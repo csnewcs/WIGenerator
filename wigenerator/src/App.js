@@ -3,10 +3,12 @@ import './App.css';
 import WorldInput from './Components/WordInput';
 import ViewWords from './Components/ViewWords';
 import SideBar from './Components/SideBar';
+import MixWords from './Components/MixWords';
 import {React, useState} from "react";
 
 function App() {
   const [wordList, setWordList] = useState([])
+  const [isInputing, setIsInputing] = useState(true)
   const addWord = (text) => {
     if (wordList.includes(text)) {
       return false;
@@ -28,12 +30,22 @@ function App() {
     }
     setWordList(wordList.concat(words))
   }
+  if (isInputing) {
+    return (
+      <div className="App">
+        <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} isInputing={isInputing}/>
+        <div id='main'>
+          <WorldInput words={wordList} addWord={addSingleWord} setIsInputing={setIsInputing}/>
+          <ViewWords />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="App">
       <SideBar wordCount={wordList.length} addMultiWords={addMultiWords}/>
       <div id='main'>
-        <WorldInput addWord={addSingleWord}/>
-        <ViewWords />
+        <MixWords words={wordList} addCombination={addWord}/>
       </div>
     </div>
   );
