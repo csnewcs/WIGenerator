@@ -13,7 +13,10 @@ export default class SideBar extends Component {
             const rows = data.split('\n').slice(1);
             return rows
         }
-        const getWordsFromDictionary = () => {
+        const getWordsFromDictionary = (e) => {
+            let button = e.target
+            button.disabled = true
+            button.innerHTML = '가져오는 중...'
             getFile().then((data) => {
                 let selectedWords = []
                 for (let i = 0; i < 100; i++) {
@@ -22,11 +25,13 @@ export default class SideBar extends Component {
                     selectedWords.push(selected.replace('-', ''))
                 }
                 this.props.addMultiWords(selectedWords)
+                button.disabled = false
+                button.innerHTML = '사전에서 단어 가져오기'
             })
         }
         return (
             <div className="sideBar">
-                <div id='getWordsFromOnline' onClick={getWordsFromDictionary}><p>사전에서 단어 가져오기</p></div>
+                <button onClick={getWordsFromDictionary} id='getWordsFromOnline'>사전에서 단어 가져오기</button>
                 <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
             </div>
         );

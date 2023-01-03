@@ -7,7 +7,13 @@
     margin-right: 20px;
     text-align: center;
 }
+#getWordsFromOnline {
+    border: none;
+    background-color: #dedede;
+    width: 100%
+}
 #getWordsFromOnline:hover {
     background-color: #cfcfcf;
     cursor: pointer;
+    border: none
 }
