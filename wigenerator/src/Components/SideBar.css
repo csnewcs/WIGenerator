@@ -7,6 +7,15 @@
     margin-right: 20px;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .sideBar {
+        height: 10%;
+        width: 100%;
+        position: sticky;
+        top: 0px;
+    }
+}
 #getWordsFromOnline {
     border: none;
     background-color: #dedede;

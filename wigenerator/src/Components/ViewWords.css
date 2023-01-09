@@ -2,10 +2,16 @@
     width: 100%;
     align-items: center;
     overflow: auto;
+    margin-bottom: 9.8vh;
 }
 .center {
     text-align: center;
 }
 #words {
     font-size: 2em;
+}
+@media (max-width: 768px) {
+    #ViewWords {
+        margin-bottom: 10px;
+    }
 }

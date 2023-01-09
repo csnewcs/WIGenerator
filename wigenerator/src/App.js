@@ -35,8 +35,8 @@ function App() {
       <div className="App">
         <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} isInputing={isInputing}/>
         <div id='main'>
-          <WorldInput words={wordList} addWord={addSingleWord} setIsInputing={setIsInputing}/>
-          <ViewWords />
+          <WorldInput addWord={addSingleWord} setIsInputing={setIsInputing}/>
+          <ViewWords words={wordList}/>
         </div>
       </div>
     );
