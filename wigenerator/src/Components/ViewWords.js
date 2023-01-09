@@ -10,7 +10,7 @@ function ViewWords(props) {
     }
     return (
         <div id='ViewWords'>
-            <div id='stopInput' className='sticky'>
+            <div id='stopInput'>
                 <button id='stopInputButton' className='button noBorder'>입력 완료</button>
             </div>
             <div className=''>

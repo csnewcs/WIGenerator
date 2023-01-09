@@ -16,6 +16,14 @@ function WorldInput(props) {
     const detectEnter = (e) => {
         if (e.key === 'Enter') {
             addWord()
+            if(window.screen.width < 768) {
+                let view = document.getElementsByClassName("App")[0]
+                view.scrollTop = view.scrollHeight;
+            }
+            else {
+                let view = document.getElementById("ViewWords")
+                view.scrollTop = view.scrollHeight;
+            }
         }
     }
     return(

@@ -10,8 +10,12 @@
 #words {
     font-size: 2em;
 }
+#stopInput {
+    position: fixed;
+    top: 10px;
+}
 @media (max-width: 768px) {
-    #ViewWords {
-        margin-bottom: 10px;
+    #stopInput {
+        top: 11%
     }
 }
