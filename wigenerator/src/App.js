@@ -8,7 +8,7 @@ import {React, useState} from "react";
 
 function App() {
   const [wordList, setWordList] = useState([])
-  const [isInputing, setIsInputing] = useState(true)
+  const [level, setLevel] = useState(0)
   const [mixList, setMixList] = useState({})
   const addWord = (text) => {
     if (wordList.includes(text)) {
@@ -36,25 +36,30 @@ function App() {
       mixList[word1] = []
     }
   }
-  if (isInputing) {
+  if (level == 0) {
     return (
       <div className="App">
-        <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} isInputing={isInputing}/>
+        <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
         <div id='main'>
           <WorldInput addWord={addSingleWord} />
-          <ViewWords words={wordList} setIsInputing={setIsInputing} />
+          <ViewWords words={wordList} setLevel={setLevel} />
         </div>
       </div>
     );
   }
-  return (
-    <div className="App">
-      <SideBar wordCount={wordList.length} combinationCount={wordList.length} addMultiWords={addMultiWords}/>
-      <div id='main'>
-        <MixWords words={wordList} addCombination={addWord}/>
+  else if (level == 1) {
+    return (
+      <div className="App">
+        <SideBar wordCount={wordList.length} combinationCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
+        <div id='main'>
+          <MixWords words={wordList} addCombination={addWord}/>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  else {
+    return (<div> </div>)
+  }
 }
 
 export default App;

@@ -35,7 +35,7 @@ export default class SideBar extends Component {
                 button.innerHTML = '사전에서 단어 가져오기'
             })
         }
-        if(!this.props.isInputing) {
+        if(this.props.level == 1) {
             return (
                 <div className="sideBar">
                     <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
@@ -43,11 +43,18 @@ export default class SideBar extends Component {
                 </div>
             );
         }
-        return (
-            <div className="sideBar">
-                <button onClick={getWordsFromDictionary} id='getWordsFromOnline'>사전에서 단어 가져오기</button>
-                <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
-            </div>
-        );
+        else if(this.props.level == 0) {
+            return (
+                <div className="sideBar">
+                    <button onClick={getWordsFromDictionary} id='getWordsFromOnline'>사전에서 단어 가져오기</button>
+                    <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div></div>
+            )
+        }
     }
 }

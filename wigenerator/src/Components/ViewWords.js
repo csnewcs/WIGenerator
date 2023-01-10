@@ -6,7 +6,7 @@ function ViewWords(props) {
             alert("최소 5개 이상의 단어를 입력해주세요!")
             return;
         }
-        props.setIsInputing(false)
+        props.setLevel(1)
     }
     return (
         <div id='ViewWords'>
