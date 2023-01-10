@@ -9,6 +9,7 @@ import {React, useState} from "react";
 function App() {
   const [wordList, setWordList] = useState([])
   const [isInputing, setIsInputing] = useState(true)
+  const [mixList, setMixList] = useState({})
   const addWord = (text) => {
     if (wordList.includes(text)) {
       return false;
@@ -30,20 +31,25 @@ function App() {
     }
     setWordList(wordList.concat(words))
   }
+  const addCombination = (word1, word2) => {
+    if (mixList[word1] === undefined) {
+      mixList[word1] = []
+    }
+  }
   if (isInputing) {
     return (
       <div className="App">
         <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} isInputing={isInputing}/>
         <div id='main'>
-          <WorldInput addWord={addSingleWord} setIsInputing={setIsInputing}/>
-          <ViewWords words={wordList}/>
+          <WorldInput addWord={addSingleWord} />
+          <ViewWords words={wordList} setIsInputing={setIsInputing} />
         </div>
       </div>
     );
   }
   return (
     <div className="App">
-      <SideBar wordCount={wordList.length} addMultiWords={addMultiWords}/>
+      <SideBar wordCount={wordList.length} combinationCount={wordList.length} addMultiWords={addMultiWords}/>
       <div id='main'>
         <MixWords words={wordList} addCombination={addWord}/>
       </div>

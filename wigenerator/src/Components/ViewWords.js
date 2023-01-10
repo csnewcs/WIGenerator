@@ -11,7 +11,7 @@ function ViewWords(props) {
     return (
         <div id='ViewWords'>
             <div id='stopInput'>
-                <button id='stopInputButton' className='button noBorder'>입력 완료</button>
+                <button id='stopInputButton' className='button noBorder' onClick={finish}>입력 완료</button>
             </div>
             <div className=''>
                 <p id='words' className='center'></p>

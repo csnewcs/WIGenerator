@@ -39,6 +39,7 @@ export default class SideBar extends Component {
             return (
                 <div className="sideBar">
                     <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
+                    <p id='mixCount'>조합된 단어: {this.props.combinationCount}개</p>
                 </div>
             );
         }
