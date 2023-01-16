@@ -4,34 +4,30 @@ import './MixWords.css'
 let doneList = {}
 
 export default function MixWords({words, addCombination, setLevel}) {
-    let firstWord = window.document.getElementById('firstWord')
-    let secondWord = window.document.getElementById('secondWord')
-
-    let [index, setIndex] = useState(0)
-    // console.log(words)
-    let word1
-    let word2
-    let factorial = (n) => {
+    const [index, setIndex] = useState(0)
+    const [word1, setWord1] = useState(words[Math.floor(Math.random() * words.length)])
+    const [word2, setWord2] = useState(words[Math.floor(Math.random() * words.length)])
+    const factorial = (n) => {
         var result = 1;
         for(var i=2; i<=n; i++) result *= i;
         return result;
     }
     const maxIndex = factorial(words.length) / (2*factorial(words.length - 2))
-    const setWord = () => {
-        word1 = words[Math.floor(Math.random() * words.length)]
-        word2 = words[Math.floor(Math.random() * words.length)]
-        if(doneList[word1] === undefined || doneList[word2] === undefined || word1===undefined || word2===undefined) {
-            return
-        }
-        if(word1 === word2 || doneList[word1].includes(word2) || doneList[word2].includes(word1)) {
+    const getWords = () => {
+        let tempWord1 = words[Math.floor(Math.random() * words.length)]
+        let tempWord2 = words[Math.floor(Math.random() * words.length)]
+        if(tempWord1 === tempWord2 || doneList[tempWord1]?.includes(tempWord2)) {
             if(index >= maxIndex) // (all)C(2) 
             {
                 alert('모든 조합 끝')
                 setLevel(2)
             }
             else {
-                setWord()
+                return getWords()
             }
+        }
+        else {
+            return [tempWord1, tempWord2]
         }
     }
     const addDone = (first, second) => {
@@ -49,27 +45,20 @@ export default function MixWords({words, addCombination, setLevel}) {
         }
     }
     const mix = () => {
-        setWord()
-        firstWord = window.document.getElementById('firstWord')
-        secondWord = window.document.getElementById('secondWord')
-        firstWord.innerHTML = word1
-        secondWord.innerHTML = word2
+        const words = getWords()
+        setWord1(words[0])
+        setWord2(words[1])
     }
     const apply = () => {
-        console.log('word1: ' + word1 + ', word2: ' + word2)
         addCombination(word1, word2)
         addDone(word1, word2)
-        setIndex(index++)
+        setIndex(index+1)
         mix()
     }
     const disapply = () => {
         addDone(word1, word2)
-        setIndex(index++)
+        setIndex(index+1)
         mix()
-    }
-
-    if(index === 0) {
-        setWord()
     }
     return (
         <div className="maxHeight maxWidth">
