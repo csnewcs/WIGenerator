@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import WorldInput from './Components/WordInput';
 import ViewWords from './Components/ViewWords';
@@ -32,11 +32,24 @@ function App() {
     setWordList(wordList.concat(words))
   }
   const addCombination = (word1, word2) => {
-    if (mixList[word1] === undefined) {
-      mixList[word1] = []
+    if (word1 === undefined || word2 === undefined) {
+      alert('undifined 발생')
+      return
     }
+
+    const copy1 = [...(mixList[word1] ?? [])]
+    const copy2 = [...(mixList[word2] ?? [])]
+  
+    copy1.push(word2)
+    copy2.push(word1)
+  
+    setMixList({
+      ...mixList,
+      [word1]: copy1,
+      [word2]: copy2
+    })
   }
-  if (level == 0) {
+  if (level === 0) {
     return (
       <div className="App">
         <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
@@ -47,12 +60,17 @@ function App() {
       </div>
     );
   }
-  else if (level == 1) {
+  else if (level === 1) {
+    let count = 0
+    Object.values(mixList).forEach((value) => {
+      count += value.length
+    })
+    console.log(mixList)
     return (
       <div className="App">
-        <SideBar wordCount={wordList.length} combinationCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
+        <SideBar wordCount={wordList.length} combinationCount={count / 2} addMultiWords={addMultiWords} level={level}/>
         <div id='main'>
-          <MixWords words={wordList} addCombination={addWord}/>
+          <MixWords words={wordList} addCombination={addCombination} setLevel={setLevel}/>
         </div>
       </div>
     );
