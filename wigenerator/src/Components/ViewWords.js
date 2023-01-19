@@ -1,4 +1,3 @@
-import {forwardRef} from 'react';
 import './ViewWords.css';
 
 function ViewWords(props) {

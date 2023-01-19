@@ -1,4 +1,4 @@
-import {React, createRef, useEffect} from "react";
+import {React, createRef} from "react";
 import './WordInput.css'
 
 function WorldInput(props) {

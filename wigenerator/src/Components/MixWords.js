@@ -63,12 +63,15 @@ export default function MixWords({words, addCombination, setLevel}) {
     return (
         <div className="maxHeight maxWidth">
             <div className='flex'>
-                <p id='firstWord'>{word1}</p>
-                <p id='secondWord'>{word2}</p>
+                <p id='firstWord' className='bigText'>{word1}</p>
+                <p id='secondWord' className='bigText'>{word2}</p>
             </div>
             <div className='flex' style={{justifyContent: 'center'}}>
                 <button className='blue round noBorder button-m text-center' onClick={apply}>O</button>
                 <button className='red round noBorder button-m text-center' onClick={disapply}>X</button>
+            </div>
+            <div className='flex'>
+                {(index < 10 && (index/maxIndex) < 0.1) || <button onClick={() => {setLevel(2)}}>중단</button>}
             </div>
         </div>
     )
