@@ -9,6 +9,7 @@
 
 @media (max-width: 768px) {
   .App {
+    display: block;
     flex-direction: column;
     overflow-y: scroll
   }

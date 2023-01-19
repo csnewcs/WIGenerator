@@ -4,7 +4,7 @@ import './MixWords.css'
 let doneList = {}
 
 export default function MixWords({words, addCombination, setLevel}) {
-    const [index, setIndex] = useState(0)
+    const [index, setIndex] = useState(1)
     const [word1, setWord1] = useState(words[Math.floor(Math.random() * words.length)])
     const [word2, setWord2] = useState(words[Math.floor(Math.random() * words.length)])
     const factorial = (n) => {
@@ -12,12 +12,12 @@ export default function MixWords({words, addCombination, setLevel}) {
         for(var i=2; i<=n; i++) result *= i;
         return result;
     }
-    const maxIndex = factorial(words.length) / (2*factorial(words.length - 2))
+    const maxIndex = factorial(words.length) / (2*factorial(words.length - 2)) // (all)C(2) 
     const getWords = () => {
         let tempWord1 = words[Math.floor(Math.random() * words.length)]
         let tempWord2 = words[Math.floor(Math.random() * words.length)]
         if(tempWord1 === tempWord2 || doneList[tempWord1]?.includes(tempWord2)) {
-            if(index >= maxIndex) // (all)C(2) 
+            if(index >= maxIndex) 
             {
                 alert('모든 조합 끝')
                 setLevel(2)

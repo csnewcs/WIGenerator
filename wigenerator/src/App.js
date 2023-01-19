@@ -4,32 +4,30 @@ import WorldInput from './Components/WordInput';
 import ViewWords from './Components/ViewWords';
 import SideBar from './Components/SideBar';
 import MixWords from './Components/MixWords';
-import {React, useState} from "react";
+import {React, createRef, useState, useEffect} from "react";
 
 function App() {
   const [wordList, setWordList] = useState([])
   const [level, setLevel] = useState(0)
   const [mixList, setMixList] = useState({})
+  const wordsRef = createRef()
+  const appRef = createRef()
   const addWord = (text) => {
-    if (wordList.includes(text)) {
-      return false;
-    }
-    let p = document.getElementById('words');
-    p.innerHTML += '<br />' + text;
-    return true
-  }
-  const addSingleWord = (word) => {
-    if(addWord(word)) {
-      setWordList(wordList.concat(word))
+    if (!wordList.includes(text)) {
+      setWordList(wordList.concat(text))
     }
   }
+  useEffect(() => {
+      wordsRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "end"})
+  }, [wordList])
   const addMultiWords = (words) => {
-    for (let i = 0; i < words.length; i++) {
-      if(!addWord(words[i])) {
-        words.splice(i, 1)
+    let adds = []
+    for (let word of words) {
+      if (!wordList.includes(word)) {
+        adds.push(word)
       }
     }
-    setWordList(wordList.concat(words))
+    setWordList(wordList.concat(adds))
   }
   const addCombination = (word1, word2) => {
     if (word1 === undefined || word2 === undefined) {
@@ -51,11 +49,11 @@ function App() {
   }
   if (level === 0) {
     return (
-      <div className="App">
+      <div className="App" ref={appRef}>
         <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
         <div id='main'>
-          <WorldInput addWord={addSingleWord} />
-          <ViewWords words={wordList} setLevel={setLevel} />
+          <WorldInput addWord={addWord} appRef={appRef} wordsRef={wordsRef} />
+          <ViewWords wordList={wordList} setLevel={setLevel} wordsRef={wordsRef}/>
         </div>
       </div>
     );
