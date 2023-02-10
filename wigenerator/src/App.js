@@ -4,6 +4,7 @@ import WorldInput from './Components/WordInput';
 import ViewWords from './Components/ViewWords';
 import SideBar from './Components/SideBar';
 import MixWords from './Components/MixWords';
+import Result from './Components/Result';
 import {React, createRef, useState, useEffect} from "react";
 
 function App() {
@@ -63,7 +64,6 @@ function App() {
     Object.values(mixList).forEach((value) => {
       count += value.length
     })
-    console.log(mixList)
     return (
       <div className="App">
         <SideBar wordCount={wordList.length} combinationCount={count / 2} addMultiWords={addMultiWords} level={level}/>
@@ -74,7 +74,14 @@ function App() {
     );
   }
   else {
-    return (<div> </div>)
+    return (
+      <div className="App">
+        <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
+        <div id='main'>
+          <Result wordList={wordList} mixList={mixList}/>
+        </div>
+      </div>
+    )
   }
 }
 

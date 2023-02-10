@@ -1,0 +1,9 @@
+.blueText {
+    color: blue;
+}
+.click {
+    cursor: pointer;
+}
+.newline {
+    white-space: pre-line;
+}

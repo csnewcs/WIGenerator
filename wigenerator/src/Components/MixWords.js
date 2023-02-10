@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './MixWords.css'
 
 let doneList = {}
 
 export default function MixWords({words, addCombination, setLevel}) {
     const [index, setIndex] = useState(1)
-    const [word1, setWord1] = useState(words[Math.floor(Math.random() * words.length)])
-    const [word2, setWord2] = useState(words[Math.floor(Math.random() * words.length)])
+    const [word1, setWord1] = useState()
+    const [word2, setWord2] = useState()
+    
     const factorial = (n) => {
         var result = 1;
         for(var i=2; i<=n; i++) result *= i;
@@ -46,6 +47,7 @@ export default function MixWords({words, addCombination, setLevel}) {
     }
     const mix = () => {
         const words = getWords()
+        if(words === undefined) return
         setWord1(words[0])
         setWord2(words[1])
     }
@@ -60,6 +62,7 @@ export default function MixWords({words, addCombination, setLevel}) {
         setIndex(index+1)
         mix()
     }
+    useEffect(() => mix(), [])
     return (
         <div className="maxHeight maxWidth">
             <div className='flex'>

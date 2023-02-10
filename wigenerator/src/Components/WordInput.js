@@ -20,7 +20,7 @@ function WorldInput(props) {
     }
     return (
         <div className="wordInput noBorder">
-            <input type={'text'} ref={inputRef} autoFocus placeholder="떠오르는 단어를 막 입력해보세요! (입력은 엔터)" id="textInput" className="noBorder gray height center" onKeyDown={detectEnter}></input>
+            <input type={'text'} ref={inputRef} autoFocus placeholder="떠오르는 단어를 막 입력해보세요! (엔터로 입력)" id="textInput" className="noBorder gray height center" onKeyDown={detectEnter}></input>
         </div>
     )
 }
