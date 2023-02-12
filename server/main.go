@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"oss.terrastruct.com/d2/d2graph"
@@ -20,9 +19,12 @@ func main() {
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
 		text := c.FormValue("code")
-		graph := makeGraph(text)
+		// fmt.Println(text[0:len(text)-1])
+		graph := makeGraph(text[0:len(text)-1])
+		// fmt.Println("graph")
 		b64 := base64.StdEncoding.EncodeToString(graph)
-		return c.String(http.StatusOK, b64)
+		c.Response().Header().Add("Access-Control-Allow-Origin", "*")
+		return c.String(200, b64)
 	})
 	server.Logger.Fatal(server.Start(":8080"))
 }
