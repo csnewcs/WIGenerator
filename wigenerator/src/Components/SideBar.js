@@ -53,7 +53,9 @@ export default class SideBar extends Component {
         }
         else {
             return (
-                <div></div>
+                <div className='sideBar'>
+                    
+                </div>
             )
         }
     }

@@ -40,8 +40,7 @@ func makeGraph(text string) []byte {
 		ThemeID: d2themescatalog.Aubergine.ID,
 	})
 	out, _ := d2svg.Render(diagram, &d2svg.RenderOpts{
-		Pad: d2svg.DEFAULT_PADDING,
+		Pad: d2svg.DEFAULT_PADDING,	
 	})
-
 	return out
 }

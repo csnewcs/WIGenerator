@@ -1,6 +1,5 @@
 import './Result.css'
 import { useEffect, useState } from 'react'
-import {Base64} from 'js-base64'
 
 export default function Result({mixList}) {
     const diagram = makeDiagram(mixList)
@@ -8,7 +7,7 @@ export default function Result({mixList}) {
     useEffect(() => {
         getRenderImage(diagram)
         .then((result) => {
-            setImage(decodeBase64ToSvg(result))
+            setImage(<img className='overflow' src={'data:image/svg+xml;base64,' + (result)}></img>)
         })
         .catch((err) => {
             console.log(err)
@@ -42,7 +41,9 @@ export default function Result({mixList}) {
             )
         }
         return (
-            <div dangerouslySetInnerHTML={{__html: image}}></div>
+            <div>
+                {image}
+            </div>
         )
     }
 }
@@ -57,9 +58,6 @@ async function getRenderImage(code) {
     })
     const text = await result.body.getReader().read()
     return new TextDecoder().decode(text.value)
-}
-function decodeBase64ToSvg(data) {
-    return Base64.decode(data)
 }
 function loading() {
     return <div>로딩중</div>

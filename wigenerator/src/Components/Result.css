@@ -7,3 +7,6 @@
 .newline {
     white-space: pre-line;
 }
+.overflow {
+    overflow: auto;
+}
