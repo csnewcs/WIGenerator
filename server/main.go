@@ -19,8 +19,7 @@ func main() {
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
 		text := c.FormValue("code")
-		// fmt.Println(text[0:len(text)-1])
-		graph := makeGraph(text[0:len(text)-1])
+		graph := makeGraph(text[0 : len(text)-1])
 		// fmt.Println("graph")
 		b64 := base64.StdEncoding.EncodeToString(graph)
 		c.Response().Header().Add("Access-Control-Allow-Origin", "*")
@@ -43,5 +42,6 @@ func makeGraph(text string) []byte {
 	out, _ := d2svg.Render(diagram, &d2svg.RenderOpts{
 		Pad: d2svg.DEFAULT_PADDING,
 	})
+
 	return out
 }

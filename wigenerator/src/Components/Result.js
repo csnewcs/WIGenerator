@@ -1,5 +1,6 @@
 import './Result.css'
 import { useEffect, useState } from 'react'
+import {Base64} from 'js-base64'
 
 export default function Result({mixList}) {
     const diagram = makeDiagram(mixList)
@@ -41,9 +42,7 @@ export default function Result({mixList}) {
             )
         }
         return (
-            <div>
-                <img src={image} />
-            </div>
+            <div dangerouslySetInnerHTML={{__html: image}}></div>
         )
     }
 }
@@ -60,10 +59,7 @@ async function getRenderImage(code) {
     return new TextDecoder().decode(text.value)
 }
 function decodeBase64ToSvg(data) {
-    const decodedData = atob(data)
-    const parser = new DOMParser()
-    const svgDoc = parser.parseFromString(decodedData, 'image/svg+xml')
-    return svgDoc
+    return Base64.decode(data)
 }
 function loading() {
     return <div>로딩중</div>
