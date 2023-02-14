@@ -35,6 +35,7 @@ export default class SideBar extends Component {
                 button.innerHTML = '사전에서 단어 가져오기'
             })
         }
+        
         if(this.props.level == 1) {
             return (
                 <div className="sideBar">
