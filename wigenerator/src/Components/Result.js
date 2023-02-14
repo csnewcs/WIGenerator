@@ -1,13 +1,16 @@
 import './Result.css'
 import { useEffect, useState } from 'react'
+import {Base64} from 'js-base64'
 
 export default function Result({mixList}) {
-    const diagram = makeDiagram(mixList)
+    let diagram
     const [image, setImage] = useState()
     useEffect(() => {
+        diagram = makeDiagram(mixList)
         getRenderImage(diagram)
+        
         .then((result) => {
-            setImage(<img className='overflow' src={'data:image/svg+xml;base64,' + (result)}></img>)
+            setImage(<img alt='결과 그래프' src={makeImageUrl(result)}></img>)
         })
         .catch((err) => {
             console.log(err)
@@ -40,8 +43,9 @@ export default function Result({mixList}) {
                 </div>
             )
         }
+        console.log(image)
         return (
-            <div>
+            <div className='overflow'>
                 {image}
             </div>
         )
@@ -62,6 +66,18 @@ async function getRenderImage(code) {
 function loading() {
     return <div>로딩중</div>
 }
+
+function decodeBase64ToSvg(base64) {
+    return Base64.decode(base64)
+}
+
+function makeImageUrl(image) {
+    const svg = decodeBase64ToSvg(image)
+    const blob = new Blob([svg], {type: 'image/svg+xml'})
+    const url = URL.createObjectURL(blob)
+    return url
+}
+
 function makeDiagram(mixList) {
     //make diagram with d2
     let diagram = ''
