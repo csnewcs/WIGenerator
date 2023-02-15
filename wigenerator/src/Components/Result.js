@@ -2,15 +2,16 @@ import './Result.css'
 import { useEffect, useState } from 'react'
 import {Base64} from 'js-base64'
 
-export default function Result({mixList}) {
+export default function Result({mixList, setImageLink}) {
     let diagram
     const [image, setImage] = useState()
     useEffect(() => {
         diagram = makeDiagram(mixList)
         getRenderImage(diagram)
-        
         .then((result) => {
-            setImage(<img alt='결과 그래프' src={makeImageUrl(result)}></img>)
+            const imageUrl = makeImageUrl(result)
+            setImageLink(imageUrl)
+            setImage(<img alt='결과 그래프' src={imageUrl}></img>)
         })
         .catch((err) => {
             console.log(err)
@@ -43,7 +44,7 @@ export default function Result({mixList}) {
                 </div>
             )
         }
-        console.log(image)
+        
         return (
             <div className='overflow'>
                 {image}

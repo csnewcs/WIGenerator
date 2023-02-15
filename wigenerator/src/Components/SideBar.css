@@ -16,14 +16,18 @@
         top: 0px;
     }
 }
-#getWordsFromOnline {
+.sideBarButton {
     border: none;
     background-color: #dedede;
     width: 100%;
     font-size: 1em;
 }
-#getWordsFromOnline:hover {
+.sideBarButton:hover {
     background-color: #cfcfcf;
     cursor: pointer;
     border: none
+}
+.element {
+    margin-top: 10px;
+    width: 100%
 }

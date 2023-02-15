@@ -7,6 +7,7 @@ export default class SideBar extends Component {
         super(props);
     }
     render() {
+        const logo = <img src={process.env.PUBLIC_URL + '/logo192.png'} alt='logo'></img>
         const getFile = async() => {
             const response = await fetch(dict);
             const data = await response.text();
@@ -39,23 +40,26 @@ export default class SideBar extends Component {
         if(this.props.level == 1) {
             return (
                 <div className="sideBar">
-                    <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
-                    <p id='mixCount'>조합된 단어: {this.props.combinationCount}개</p>
+                    {logo}
+                    <p id='wordCount' className='element'>입력된 단어: {this.props.wordCount}개</p>
+                    <p id='mixCount' className='element'>조합된 단어: {this.props.combinationCount}개</p>
                 </div>
             );
         }
         else if(this.props.level == 0) {
             return (
                 <div className="sideBar">
-                    <button onClick={getWordsFromDictionary} id='getWordsFromOnline'>사전에서 단어 가져오기</button>
-                    <p id='wordCount'>입력된 단어: {this.props.wordCount}개</p>
+                    {logo}
+                    <button onClick={getWordsFromDictionary} className='element sideBarButton' id='getWordsFromOnline'>사전에서 단어 가져오기</button>
+                    <p id='wordCount' className='element'>입력된 단어: {this.props.wordCount}개</p>
                 </div>
             );
         }
         else {
             return (
                 <div className='sideBar'>
-                    
+                    {logo}
+                    <p><a className='element button noBorder sideBarButton block' href={this.props.imageLink} download='result.svg'>이미지 저장하기</a></p>
                 </div>
             )
         }

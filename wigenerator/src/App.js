@@ -11,6 +11,7 @@ function App() {
   const [wordList, setWordList] = useState([])
   const [level, setLevel] = useState(0)
   const [mixList, setMixList] = useState({})
+  const [imageLink, setImageLink] = useState()
   const wordsRef = createRef()
   const appRef = createRef()
   const addWord = (text) => {
@@ -76,9 +77,9 @@ function App() {
   else {
     return (
       <div className="App">
-        <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
+        <SideBar level={level} imageLink={imageLink} />
         <div id='main'>
-          <Result wordList={wordList} mixList={mixList}/>
+          <Result setImageLink={setImageLink} wordList={wordList} mixList={mixList}/>
         </div>
       </div>
     )
