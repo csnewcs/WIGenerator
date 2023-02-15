@@ -7,7 +7,7 @@ export default class SideBar extends Component {
         super(props);
     }
     render() {
-        const logo = <img src={process.env.PUBLIC_URL + '/logo192.png'} alt='logo'></img>
+        const logo = <img src={process.env.PUBLIC_URL + '/logo192.png'} className='button element' alt='logo' onClick={() => {window.location.reload()}}></img>
         const getFile = async() => {
             const response = await fetch(dict);
             const data = await response.text();

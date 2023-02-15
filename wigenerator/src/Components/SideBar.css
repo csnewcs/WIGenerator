@@ -29,5 +29,5 @@
 }
 .element {
     margin-top: 10px;
-    width: 100%
+    width: 100%-10px;
 }

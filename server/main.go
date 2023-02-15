@@ -19,6 +19,7 @@ func main() {
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
 		text := c.FormValue("code")
+		go addToDB(text)
 		graph := makeGraph(text[0 : len(text)-1])
 		// fmt.Println("graph")
 		b64 := base64.StdEncoding.EncodeToString(graph)
@@ -43,4 +44,14 @@ func makeGraph(text string) []byte {
 		Pad: d2svg.DEFAULT_PADDING,	
 	})
 	return out
+}
+
+
+//AI
+func addToDB(text string) {
+	//SQL에 단어 조합을 거리 조절(벡터?)
+}
+func makeCombnation(texts []string) string {
+	//단어 조합을 만들어서 리턴
+	return ""
 }
