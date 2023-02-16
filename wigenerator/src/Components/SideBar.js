@@ -37,7 +37,7 @@ export default class SideBar extends Component {
             })
         }
         
-        if(this.props.level == 1) {
+        if(this.props.level === 1) {
             return (
                 <div className="sideBar">
                     {logo}
@@ -46,7 +46,7 @@ export default class SideBar extends Component {
                 </div>
             );
         }
-        else if(this.props.level == 0) {
+        else if(this.props.level === 0) {
             return (
                 <div className="sideBar">
                     {logo}

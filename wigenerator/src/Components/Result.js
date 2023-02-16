@@ -2,8 +2,8 @@ import './Result.css'
 import { useEffect, useState } from 'react'
 import {Base64} from 'js-base64'
 
+let diagram
 export default function Result({mixList, setImageLink}) {
-    let diagram
     const [image, setImage] = useState()
     useEffect(() => {
         diagram = makeDiagram(mixList)
@@ -25,7 +25,8 @@ export default function Result({mixList, setImageLink}) {
         if (image === 'error') {
             let text = <p></p>
             let copy = () => {
-                navigator.clipboard.writeText(diagram)
+                console.log(diagram) //undefiend?
+                window.navigator.clipboard.writeText(diagram)
                 .then(() => {
                     alert('복사가 완료되었어요.')
                 })
