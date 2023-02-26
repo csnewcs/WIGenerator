@@ -31,3 +31,6 @@ func UseMongo() MongoDB { //Init
 	MongoDB.Client = *client
 	return MongoDB
 }
+// func(mongo MongoDB) WriteData(key string, value string) {
+// 	MongoDB.Client.
+// }

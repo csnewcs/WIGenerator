@@ -23,10 +23,10 @@ func main() {
 		graph := makeGraph(text[0 : len(text)-1])
 		// fmt.Println("graph")
 		b64 := base64.StdEncoding.EncodeToString(graph)
-		c.Response().Header().Add("Access-Control-Allow-Origin", "*")
+		c.Response().Header().Add("Access-Control-Allow-Origin", "wigenerator.pages.dev/")
 		return c.String(200, b64)
 	})
-	server.Logger.Fatal(server.Start(":8080"))
+	server.Logger.Fatal(server.Start(":80"))
 }
 
 func makeGraph(text string) []byte {

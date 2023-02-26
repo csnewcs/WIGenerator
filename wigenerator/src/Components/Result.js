@@ -1,6 +1,7 @@
 import './Result.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, React } from 'react'
 import {Base64} from 'js-base64'
+import url from './url.txt'
 
 let diagram
 export default function Result({mixList, setImageLink}) {
@@ -53,8 +54,14 @@ export default function Result({mixList, setImageLink}) {
         )
     }
 }
+async function getUrl() {
+    const res = await fetch(url)
+    const text = await res.text()
+    console.log(text)
+    return text
+}
 async function getRenderImage(code) {
-    const url = 'http://localhost:8080/'
+    const url = getUrl()
     const result = await fetch(url, {
         method: 'POST',
         headers: {
