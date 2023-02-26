@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"log"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"oss.terrastruct.com/d2/d2graph"
@@ -26,6 +28,9 @@ func main() {
 		c.Response().Header().Add("Access-Control-Allow-Origin", "wigenerator.pages.dev/")
 		return c.String(200, b64)
 	})
+	if err := server.StartTLS(":443", "server.crt", "server.key"); err != http.ErrServerClosed {
+		log.Fatal(err)
+	}
 	server.Logger.Fatal(server.Start(":80"))
 }
 
