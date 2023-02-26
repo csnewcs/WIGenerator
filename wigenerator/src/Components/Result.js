@@ -61,7 +61,7 @@ async function getUrl() {
     return text
 }
 async function getRenderImage(code) {
-    const url = getUrl()
+    const url = 'http://' + getUrl() + '/'
     const result = await fetch(url, {
         method: 'POST',
         headers: {
