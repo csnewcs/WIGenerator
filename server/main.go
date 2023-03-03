@@ -21,14 +21,15 @@ func main() {
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
 		text := c.FormValue("code")
+		//fmt.Println(text)
 		go addToDB(text)
 		graph := makeGraph(text[0 : len(text)-1])
 		// fmt.Println("graph")
 		b64 := base64.StdEncoding.EncodeToString(graph)
-		c.Response().Header().Add("Access-Control-Allow-Origin", "wigenerator.pages.dev/")
+		c.Response().Header().Add("Access-Control-Allow-Origin", "https://wi.csnewcs.dev")
 		return c.String(200, b64)
 	})
-	if err := server.StartTLS(":443", "server.crt", "server.key"); err != http.ErrServerClosed {
+	if err := server.StartTLS(":443", "cert.pem", "key.pem"); err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 	server.Logger.Fatal(server.Start(":80"))
