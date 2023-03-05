@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"os"
 	"log"
 	"net/http"
 
@@ -17,22 +18,38 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
+	args := os.Args[1:]
+	testing := false
+	origin := "https://wi.csnewcs.dev"
+	if (len(args) == 0) {
+		fmt.Println("Normal Mode(https, 443 port, sudo required)")
+	} else if (args[0] == "test") {
+		fmt.Println("Test Mode(http, 8080 port)")
+		origin = "*"
+		testing = true
+	}
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
 		text := c.FormValue("code")
-		//fmt.Println(text)
 		go addToDB(text)
 		graph := makeGraph(text[0 : len(text)-1])
-		// fmt.Println("graph")
 		b64 := base64.StdEncoding.EncodeToString(graph)
-		c.Response().Header().Add("Access-Control-Allow-Origin", "https://wi.csnewcs.dev")
+		if testing {
+			os.WriteFile("test.svg", graph, 0644)
+			os.WriteFile("test.txt", []byte(b64), 0644)
+		}
+		c.Response().Header().Add("Access-Control-Allow-Origin", origin)
 		return c.String(200, b64)
 	})
-	if err := server.StartTLS(":443", "cert.pem", "key.pem"); err != http.ErrServerClosed {
-		log.Fatal(err)
+	if testing {
+		if err := server.Start(":8080"); err != http.ErrServerClosed {
+			log.Fatal(err)
+		}
+	} else {
+		if err := server.StartTLS(":443", "cert.pem", "key.pem"); err != http.ErrServerClosed {
+			log.Fatal(err)
+		}
 	}
-	server.Logger.Fatal(server.Start(":80"))
 }
 
 func makeGraph(text string) []byte {
