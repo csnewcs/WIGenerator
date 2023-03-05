@@ -6,11 +6,14 @@ import url from './url.txt'
 let diagram
 export default function Result({mixList, setImageLink}) {
     const [image, setImage] = useState()
+    let resultText = ""
     useEffect(() => {
         diagram = makeDiagram(mixList)
         getRenderImage(diagram)
         .then((result) => {
+            console.log(result)
             const imageUrl = makeImageUrl(result)
+
             setImageLink(imageUrl)
             setImage(<img alt='결과 그래프' src={imageUrl}></img>)
         })
@@ -49,6 +52,7 @@ export default function Result({mixList, setImageLink}) {
         
         return (
             <div className='overflow'>
+                <a href={"data:application/octet-stream;charset=image/svg+xml;base64,"+resultText} download='test.svg'>test file</a>
                 {image}
             </div>
         )
@@ -61,7 +65,7 @@ async function getUrl() {
     return text
 }
 async function getRenderImage(code) {
-    const url = 'http://' + await getUrl() + ':8080/'
+    const url = 'https://' + await getUrl() + '/'
     const result = await fetch(url, {
         method: 'POST',
         headers: {
@@ -69,8 +73,8 @@ async function getRenderImage(code) {
         },
         body: 'code=' + code
     })
-    const text = await result.body.getReader().read()
-    return new TextDecoder().decode(text.value)
+    const text = await result.text()
+    return text
 }
 function loading() {
     return <div>로딩중</div>

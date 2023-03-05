@@ -35,14 +35,13 @@ func main() {
 		graph := makeGraph(text[0 : len(text)-1])
 		b64 := base64.StdEncoding.EncodeToString(graph)
 		if testing {
-			os.WriteFile("test.svg", graph, 0644)
-			os.WriteFile("test.txt", []byte(b64), 0644)
+			// os.WriteFile("test.txt", []byte(b64), 0644)
 		}
 		c.Response().Header().Add("Access-Control-Allow-Origin", origin)
 		return c.String(200, b64)
 	})
 	if testing {
-		if err := server.StartTLS(":8080", "cert.pem", "key.pem"); err != http.ErrServerClosed {
+		if err := server.Start(":8080"); err != http.ErrServerClosed {
 			log.Fatal(err)
 		}
 	} else {
