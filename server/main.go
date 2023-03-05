@@ -42,7 +42,7 @@ func main() {
 		return c.String(200, b64)
 	})
 	if testing {
-		if err := server.Start(":8080"); err != http.ErrServerClosed {
+		if err := server.StartTLS(":8080", "cert.pem", "key.pem"); err != http.ErrServerClosed {
 			log.Fatal(err)
 		}
 	} else {
