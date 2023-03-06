@@ -1,0 +1,50 @@
+channel
+ㄴtotal
+ㄴtitle
+ㄴdescription
+ㄴitem
+    ㄴArray
+        ㄴtarget_code
+        ㄴword_info
+            ㄴ(pronunciation_info)
+                ㄴArray
+                    ㄴpronunciation
+            ㄴ(relation_info)
+                ㄴArray
+                    ㄴlink
+                    ㄴlink_target_code
+                    ㄴword
+                    ㄴtype: 부표제어 등
+            ㄴword_unit
+            ㄴorigin
+            ㄴword: 단어
+            ㄴ(original_language_info): 한자어 외래어 등
+                ㄴArray
+                    ㄴoriginal_language
+                    ㄴlanguage_type
+            ㄴword_type
+            ㄴpos_info
+                ㄴArray
+                    ㄴpos_code
+                    ㄴcomm_pattern_code
+                    ㄴsense_info: 다의어
+                        ㄴArray
+                            ㄴdefinition: 뜻
+                            ㄴ(cat_info)
+                                ㄴArray
+                                    ㄴcat: 카테고리
+                            ㄴtype
+                            ㄴdefinition_original
+                            ㄴsense_code
+                            ㄴ(lexical_info): 추가 단어 정보
+                                ㄴArray
+                                    ㄴunit
+                                    ㄴlink
+                                    ㄴlink_target_code
+                                    ㄴword: 해당 단어
+                                    ㄴtype: 유의/반의 등
+                            ㄴ(example_info)
+                                ㄴArray
+                                    ㄴ(source): 어디서 나온 건지
+                                    ㄴexample: 예시
+            ㄴpos: 품사
