@@ -1,5 +1,10 @@
 package main
 
+import (
+	"encoding/json"
+	"os"
+)
+
 type ExampleInfo struct {
 	Example string `json:"example"`
 	Source string `json:"source"`
@@ -36,6 +41,29 @@ type WordInfo struct {
 	PosInfo []PosInfo `json:"pos_info"`
 	Pos string `json:"pos"`
 }
+type Item struct {
+	TargetCode int `json:"target_code"`
+	WordInfo WordInfo `json:"word_info"`
+}
 type Channel struct {
-	
+	Total int `json:"total"`
+	Title string `json:"title"`
+	Description string `json:"description"`
+	Item []Item `json:"item"`
+}
+type Dict struct {
+	Channel Channel `json:"channel"`
+}
+
+func GetDictFromFile(path string) Dict {
+	var dict Dict
+	file, err := os.ReadFile(path)
+	if err != nil {
+		panic(err)
+	}
+	err = json.Unmarshal(file, &dict)
+	if err != nil {
+		panic(err)
+	}
+	return dict
 }
