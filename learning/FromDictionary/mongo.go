@@ -53,13 +53,10 @@ func (m Mongo) WordComb(word1 Word, word2 Word)  {
 	goPlus := word1.Pos[randomIndex] > word2.Pos[randomIndex]
 	if goPlus {
 		word1.Pos[randomIndex] -= 1
-		word2.Pos[randomIndex] += 1
 	} else {
 		word1.Pos[randomIndex] += 1
-		word2.Pos[randomIndex] -= 1
 	}
 	m.UpdateOne(word1)
-	m.UpdateOne(word2)
 }
 func (m Mongo) UpdateOne(word Word) {
 	coll := m.Client.Database("wigenerator").Collection("words")
