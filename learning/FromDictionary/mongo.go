@@ -51,6 +51,13 @@ func (m Mongo) newWord(word string) Word {
 func (m Mongo) WordComb(word1 Word, word2 Word)  {
 	randomIndex := getRandom(0, len(word1.Pos))
 	goPlus := word1.Pos[randomIndex] > word2.Pos[randomIndex]
+	if word2.Pos[randomIndex] > 50 && word2.Pos[randomIndex] < 75 {
+		word2.Pos[randomIndex] += 1
+		word1.Pos[randomIndex] += 1
+	} else if word2.Pos[randomIndex] > 25 && word2.Pos[randomIndex] < 50 {
+		word2.Pos[randomIndex] -= 1
+		word1.Pos[randomIndex] -= 1
+	}
 	if goPlus {
 		word1.Pos[randomIndex] -= 1
 	} else {
