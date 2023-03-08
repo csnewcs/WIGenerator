@@ -16,13 +16,18 @@ type LexicalInfo struct {
 type SenseInfo struct {
 	Definition string `json:"definition"`
 	DefinitionOriginal string `json:"definition_original"`
-	CategoryInfo []string `json:"category_info"`
-	LexicalInfo []LexicalInfo `json:"lexical_info"`
-	ExampleInfo []ExampleInfo `json:"example_info"`
+	CategoryInfos []string `json:"category_info"`
+	LexicalInfos []LexicalInfo `json:"lexical_info"`
+	ExampleInfos []ExampleInfo `json:"example_info"`
+}
+type CommPatternInfo struct {
+	// CommPatternCode int `json:"comm_pattern_code"`
+	SenseInfo []SenseInfo `json:"sense_info"`
 }
 type PosInfo struct {
-	Code int `json:"code"`
-	SenseInfo []SenseInfo `json:"sense_info"`
+	// PosCode int `json:"pos_code"`
+	CommPatternInfo []CommPatternInfo `json:"comm_pattern_info"`
+	Pos string `json:"pos"`
 }
 type RelationInfo struct {
 	Word string `json:"word"`
@@ -33,13 +38,12 @@ type OriginalLanguageInfo struct {
 	LanguageType string `json:"language_type"`
 }
 type WordInfo struct {
-	RelationInfo []RelationInfo `json:"relation_info"`
+	RelationInfos []RelationInfo `json:"relation_info"`
 	WordUnit string `json:"word_unit"`
 	Word string `json:"word"`
 	WordType string `json:"word_type"`
 	OriginalLanguageInfo []OriginalLanguageInfo `json:"original_language_info"`
-	PosInfo []PosInfo `json:"pos_info"`
-	Pos string `json:"pos"`
+	PosInfos []PosInfo `json:"pos_info"`
 }
 type Item struct {
 	TargetCode int `json:"target_code"`
@@ -49,7 +53,7 @@ type Channel struct {
 	Total int `json:"total"`
 	Title string `json:"title"`
 	Description string `json:"description"`
-	Item []Item `json:"item"`
+	Items []Item `json:"item"`
 }
 type Dict struct {
 	Channel Channel `json:"channel"`

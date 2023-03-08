@@ -24,14 +24,14 @@ func NewMongo() Mongo {
 	return Mongo{Client: client}
 }
 func (m Mongo) InsertOne(word Word) {
-	coll := m.Client.Database("test").Collection("words")
+	coll := m.Client.Database("wigenerator").Collection("words")
 	_, err := coll.InsertOne(context.TODO(), word)
 	if err != nil {
 		panic(err)
 	}
 }
 func (m Mongo) FindOne(word string) Word {
-	coll := m.Client.Database("test").Collection("words")
+	coll := m.Client.Database("wigenerator").Collection("words")
 	var result Word
 	err := coll.FindOne(context.TODO(), bson.M{"word": word}).Decode(&result)
 	if err != nil {
@@ -52,14 +52,17 @@ func (m Mongo) WordComb(word1 Word, word2 Word)  {
 	randomIndex := getRandom(0, len(word1.Pos))
 	goPlus := word1.Pos[randomIndex] > word2.Pos[randomIndex]
 	if goPlus {
-		word2.Pos[randomIndex] += 0.1
+		word1.Pos[randomIndex] -= 1
+		word2.Pos[randomIndex] += 1
 	} else {
-		word2.Pos[randomIndex] -= 0.1
+		word1.Pos[randomIndex] += 1
+		word2.Pos[randomIndex] -= 1
 	}
+	m.UpdateOne(word1)
 	m.UpdateOne(word2)
 }
 func (m Mongo) UpdateOne(word Word) {
-	coll := m.Client.Database("test").Collection("words")
+	coll := m.Client.Database("wigenerator").Collection("words")
 	filter := bson.M{"word": word.Word}
 	update := bson.M{"$set": bson.M{"pos": word.Pos}}
 	_, err := coll.UpdateOne(context.TODO(), filter, update)

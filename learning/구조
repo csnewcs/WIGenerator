@@ -26,25 +26,27 @@ channel
             ㄴpos_info
                 ㄴArray
                     ㄴpos_code
-                    ㄴcomm_pattern_code
-                    ㄴsense_info: 다의어
+                    ㄴcomm_pattern_info
                         ㄴArray
-                            ㄴdefinition: 뜻
-                            ㄴ(cat_info)
+                            ㄴcomm_pattern_code
+                            ㄴsense_info: 다의어
                                 ㄴArray
-                                    ㄴcat: 카테고리
-                            ㄴtype
-                            ㄴdefinition_original
-                            ㄴsense_code
-                            ㄴ(lexical_info): 추가 단어 정보
-                                ㄴArray
-                                    ㄴunit
-                                    ㄴlink
-                                    ㄴlink_target_code
-                                    ㄴword: 해당 단어
-                                    ㄴtype: 유의/반의 등
-                            ㄴ(example_info)
-                                ㄴArray
-                                    ㄴ(source): 어디서 나온 건지
-                                    ㄴexample: 예시
+                                    ㄴdefinition: 뜻
+                                    ㄴ(cat_info)
+                                        ㄴArray
+                                            ㄴcat: 카테고리
+                                    ㄴtype
+                                    ㄴdefinition_original
+                                    ㄴsense_code
+                                    ㄴ(lexical_info): 추가 단어 정보
+                                        ㄴArray
+                                            ㄴunit
+                                            ㄴlink
+                                            ㄴlink_target_code
+                                            ㄴword: 해당 단어
+                                            ㄴtype: 유의/반의 등
+                                    ㄴ(example_info)
+                                        ㄴArray
+                                            ㄴ(source): 어디서 나온 건지
+                                            ㄴexample: 예시
             ㄴpos: 품사
