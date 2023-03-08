@@ -16,15 +16,11 @@ var done int
 var max int
 var startTime time.Time
 var avgTime []int
-var size *goTerminal.Coord
-var blank string
 
 func main() {
 	goTerminal.Clean()
 	goTerminal.CursorLineColumn(1,1)
 	goTerminal.SetSGR(goTerminal.Reset)
-	size, _ = goTerminal.Size()
-	blank = strings.Repeat(" ", size.Y)
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("몇 번 반복할까요?")
 	text, _ := reader.ReadString('\n')
@@ -144,7 +140,5 @@ func update(index int) {
 	avg := sum / len(avgTime)
 	maybe := time.Duration(avg * rest) * time.Millisecond
 	goTerminal.CursorColumn(1)
-	fmt.Print(blank)
-	goTerminal.CursorColumn(1)
-	fmt.Print(fmt.Sprintf("%d / %d 학습 중... (약", done, max), maybe, "남음)")
+	fmt.Print(fmt.Sprintf("%d / %d 학습 중... (약", done, max), maybe, "남음)          ")
 }
