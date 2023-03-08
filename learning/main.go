@@ -29,6 +29,10 @@ func main() {
 	fmt.Println("몇 번 반복할까요?")
 	text, _ := reader.ReadString('\n')
 	text = text[:len(text) - 1]
+	fmt.Println("최대 몇 개의 스레드를 사용할까요?(무제한: 0)")
+	text2, _ := reader.ReadString('\n')
+	text2 = text2[:len(text2) - 1]
+	maxThread, _ := strconv.Atoi(text2)
 	multiplation, _ := strconv.Atoi(text)
 	startTime = time.Now()
 	fmt.Println("START")
@@ -40,16 +44,21 @@ func main() {
 		all[index] = GetDictFromFile(directory + "/" + file.Name())
 	}
 	done = 0
+	if maxThread == 0 {
+		maxThread = len(all)
+	}
 	max = all[0].Channel.Total * multiplation
-	avgTime = make([]int, len(all))
+	avgTime = make([]int, maxThread)
 	fmt.Println("Learning...")
 	for i := 0; i <= multiplation; i++ {
-		var wg sync.WaitGroup
-		wg.Add(len(all))
-		for index, dict := range all {
-			go dictLearn(dict, &wg, index)
+		for doneDict := 0; doneDict < len(all); doneDict+=maxThread {
+			var wg sync.WaitGroup
+			wg.Add(maxThread)
+			for index := 0; index < maxThread; index++ {
+				go dictLearn(all[doneDict * maxThread + index], &wg, index)
+			}
+			wg.Wait()
 		}
-		wg.Wait()
 	}
 }
 func dictLearn(dict Dict, wg *sync.WaitGroup, index int) {
