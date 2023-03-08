@@ -61,6 +61,15 @@ func main() {
 		}
 	}
 }
+func onlyHangul(text string) string {
+	var result string
+	for _, char := range text {
+		if char >= 0xAC00 && char <= 0xD7A3 {
+			result += string(char)
+		}
+	}
+	return result
+}
 func dictLearn(dict Dict, wg *sync.WaitGroup, index int) {
 	mongo := NewMongo()
 	items := dict.Channel.Items
@@ -79,7 +88,7 @@ func dictLearn(dict Dict, wg *sync.WaitGroup, index int) {
 					for index, kiwiString := range kiwi {
 						words[index] = kiwiToString(kiwiString)
 					}
-					words[len(kiwi)] = word
+					words[len(kiwi)] = onlyHangul(word)
 					allComb(strToWords(words, &mongo), &mongo)
 				}
 			}
