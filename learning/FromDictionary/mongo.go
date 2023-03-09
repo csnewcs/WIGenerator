@@ -44,7 +44,7 @@ func (m Mongo) FindOne(word string) Word {
 	return result
 }
 func (m Mongo) newWord(word string) Word {
-	newWord := Word{Word: word, Pos: []float32{float32(getRandom(0, 100)), float32(getRandom(0, 100)), float32(getRandom(0, 100)), float32(getRandom(0, 100)), float32(getRandom(0, 100))}}
+	newWord := Word{Word: word, Pos: []int{getRandom(0, 100),getRandom(0, 100),getRandom(0, 100), getRandom(0, 100), getRandom(0, 100) , getRandom(0, 100), getRandom(0, 100), getRandom(0, 100), getRandom(0, 100), getRandom(0, 100), getRandom(0, 100), getRandom(0, 100) , getRandom(0, 100), getRandom(0, 100), getRandom(0, 100), getRandom(0, 100)}}
 	m.InsertOne(newWord)
 	return newWord
 }
@@ -64,6 +64,7 @@ func (m Mongo) WordComb(word1 Word, word2 Word)  {
 		word1.Pos[randomIndex] += 1
 	}
 	m.UpdateOne(word1)
+        m.UpdateOne(word2)
 }
 func (m Mongo) UpdateOne(word Word) {
 	coll := m.Client.Database("wigenerator").Collection("words")
@@ -83,5 +84,5 @@ func getRandom(min int, max int) int {
 
 type Word struct {
 	Word string `bson:"word"`
-	Pos []float32 `bson:"pos"`
+	Pos []int `bson:"pos"`
 }
