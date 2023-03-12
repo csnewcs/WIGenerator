@@ -137,10 +137,15 @@ func update(index int) {
 	avgTime[index] = int(duration / time.Millisecond)
 	rest := max - done
 	sum := 0
+	divide := len(avgTime)
 	for _, time := range avgTime {
+		if time == 0 {
+			divide--
+			continue
+		}
 		sum += time
 	}
-	avg := sum / len(avgTime)
+	avg := sum / divide
 	maybe := time.Duration(avg * rest) * time.Millisecond
 	fmt.Print(fmt.Sprintf("%d / %d 학습 중... (약", done, max), maybe, "남음)          ")
 	goTerminal.CursorColumn(1)
