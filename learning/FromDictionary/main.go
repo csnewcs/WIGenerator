@@ -51,6 +51,9 @@ func main() {
 			var wg sync.WaitGroup
 			wg.Add(maxThread)
 			for index := 0; index < maxThread; index++ {
+				if doneDict * maxThread + index == len(all) {
+					break
+				}
 				go dictLearn(all[doneDict * maxThread + index], &wg, index)
 			}
 			wg.Wait()
@@ -139,6 +142,6 @@ func update(index int) {
 	}
 	avg := sum / len(avgTime)
 	maybe := time.Duration(avg * rest) * time.Millisecond
-	goTerminal.CursorColumn(1)
 	fmt.Print(fmt.Sprintf("%d / %d 학습 중... (약", done, max), maybe, "남음)          ")
+	goTerminal.CursorColumn(1)
 }
