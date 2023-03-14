@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"os"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"oss.terrastruct.com/d2/d2graph"
@@ -19,6 +20,7 @@ import (
 
 func main() {
 	args := os.Args[1:]
+	mongo := NewMongo()
 	testing := false
 	origin := "https://wi.csnewcs.dev"
 	if (len(args) == 0) {
@@ -27,16 +29,14 @@ func main() {
 		fmt.Println("Test Mode(http, 8080 port)")
 		origin = "*"
 		testing = true
+		makeCombnation("사과 <-> 배", &mongo)
 	}
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
 		text := c.FormValue("code")
-		go addToDB(text)
+		go makeCombnation(text, &mongo)
 		graph := makeGraph(text[0 : len(text)-1])
 		b64 := base64.StdEncoding.EncodeToString(graph)
-		if testing {
-			// os.WriteFile("test.txt", []byte(b64), 0644)
-		}
 		c.Response().Header().Add("Access-Control-Allow-Origin", origin)
 		return c.String(200, b64)
 	})
@@ -70,10 +70,18 @@ func makeGraph(text string) []byte {
 
 
 //AI
-func addToDB(text string) {
-	//DB에 단어 조합을 거리 조절(벡터?)
+func makeCombnation(combString string, mongo *Mongo) {
+	split := strings.Split(combString, " <-> ")
+	word1 := mongo.FindOne(split[0])
+	word2 := mongo.FindOne(split[1])
+	mongo.WordComb(word1, word2)
 }
-func makeCombnation(texts []string) string {
-	//단어 조합을 만들어서 리턴
-	return ""
+
+func getClosestWord(target string, search []string, mongo *Mongo) string {
+	targetWord := mongo.FindOne(target)
+	searchWords := make([]Word, len(search))
+	for i, word := range search {
+		searchWords[i] = mongo.FindOne(word)
+	}
+	return targetWord.FindClosest(searchWords).Word
 }
