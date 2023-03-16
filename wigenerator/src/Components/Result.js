@@ -1,15 +1,14 @@
 import './Result.css'
-import { useEffect, useState, React } from 'react'
+import { useState, React, useEffect } from 'react'
 import {Base64} from 'js-base64'
-import url from './url.txt'
 
 let diagram
-export default function Result({mixList, setImageLink}) {
+export default function Result({mixList, setImageLink, url}) {
     const [image, setImage] = useState()
-    let resultText = ""
+    console.log(url)
     useEffect(() => {
         diagram = makeDiagram(mixList)
-        getRenderImage(diagram)
+        getRenderImage(diagram, url)
         .then((result) => {
             console.log(result)
             const imageUrl = makeImageUrl(result)
@@ -21,7 +20,7 @@ export default function Result({mixList, setImageLink}) {
             console.log(err)
             setImage('error')
         })
-    }, [])
+    })
     if(!image) {
         return loading()
     }
@@ -52,20 +51,14 @@ export default function Result({mixList, setImageLink}) {
         
         return (
             <div className='overflow'>
-                <a href={"data:application/octet-stream;charset=image/svg+xml;base64,"+resultText} download='test.svg'>test file</a>
+                <a href={image} download='test.svg'>test file</a>
                 {image}
             </div>
         )
     }
 }
-async function getUrl() {
-    const res = await fetch(url)
-    const text = await res.text()
-    console.log(text)
-    return text
-}
-async function getRenderImage(code) {
-    const url = 'https://' + await getUrl() + '/'
+async function getRenderImage(code, address) {
+    const url = 'https://' + address + '/'
     const result = await fetch(url, {
         method: 'POST',
         headers: {
@@ -84,7 +77,7 @@ function decodeBase64ToSvg(base64) {
     return Base64.decode(base64)
 }
 
-function makeImageUrl(image) {
+export function makeImageUrl(image) {
     const svg = decodeBase64ToSvg(image)
     const blob = new Blob([svg], {type: 'image/svg+xml'})
     const url = URL.createObjectURL(blob)

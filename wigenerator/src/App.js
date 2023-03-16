@@ -5,13 +5,16 @@ import ViewWords from './Components/ViewWords';
 import SideBar from './Components/SideBar';
 import MixWords from './Components/MixWords';
 import Result from './Components/Result';
-import {React, createRef, useState, useEffect} from "react";
+import {React, createRef, useState, useCallback, useEffect} from "react";
+import AiResult from './Components/AiResult';
+import address from './url.txt'
 
 function App() {
   const [wordList, setWordList] = useState([])
   const [level, setLevel] = useState(0)
   const [mixList, setMixList] = useState({})
   const [imageLink, setImageLink] = useState()
+  const [url, setUrl] = useState('')
   const wordsRef = createRef()
   const appRef = createRef()
   const addWord = (text) => {
@@ -21,7 +24,18 @@ function App() {
   }
   useEffect(() => {
       wordsRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "end"})
-  }, [wordList])
+  }, [wordList, wordsRef])
+  let getUrl = useCallback(() => {
+    fetch(address).then(res => {
+      res.text().then(result => {
+        setUrl(result)
+      })
+    })
+  }, [])
+  useEffect(() => {
+    getUrl()
+    console.log(url)
+  })
   const addMultiWords = (words) => {
     let adds = []
     for (let word of words) {
@@ -49,7 +63,7 @@ function App() {
       [word2]: copy2
     })
   }
-  if (level === 0) {
+  if (level === 0) { //단어 입력 단계
     return (
       <div className="App" ref={appRef}>
         <SideBar wordCount={wordList.length} addMultiWords={addMultiWords} level={level}/>
@@ -60,7 +74,7 @@ function App() {
       </div>
     );
   }
-  else if (level === 1) {
+  else if (level === 1) { //단어 조합 단계
     let count = 0
     Object.values(mixList).forEach((value) => {
       count += value.length
@@ -74,12 +88,22 @@ function App() {
       </div>
     );
   }
-  else {
+  else if (level === 2) { //결과 표시 단계
     return (
       <div className="App">
         <SideBar level={level} imageLink={imageLink} />
         <div id='main'>
-          <Result setImageLink={setImageLink} wordList={wordList} mixList={mixList}/>
+          <Result setImageLink={setImageLink} wordList={wordList} mixList={mixList} url={url}/>
+        </div>
+      </div>
+    )
+  }
+  else if (level === 3) { //결과 표시 단계(그런데 이제 AI를 곁들인)
+    return (
+      <div className="App">
+        <SideBar level={level} imageLink={imageLink} />
+        <div id='main'>
+          <AiResult words={wordList} url={url} />
         </div>
       </div>
     )

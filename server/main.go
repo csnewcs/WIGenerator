@@ -29,17 +29,15 @@ func main() {
 		fmt.Println("Test Mode(http, 8080 port)")
 		origin = "*"
 		testing = true
-		makeCombnation("사과 <-> 배", &mongo)
 	}
 	server := echo.New()
 	server.POST("/", func(c echo.Context) error {
-		text := c.FormValue("code")
-		go makeCombnation(text, &mongo)
-		graph := makeGraph(text[0 : len(text)-1])
-		b64 := base64.StdEncoding.EncodeToString(graph)
-		c.Response().Header().Add("Access-Control-Allow-Origin", origin)
-		return c.String(200, b64)
+		return mainPost(c, &mongo, origin)
 	})
+	server.POST("/find", func(c echo.Context) error {
+		return findClosest(c, &mongo, origin)
+	})
+
 	if testing {
 		if err := server.Start(":8080"); err != http.ErrServerClosed {
 			log.Fatal(err)
@@ -49,6 +47,42 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+}
+
+func mainPost(c echo.Context, mongo *Mongo, origin string) error {
+	text := c.FormValue("code")
+	go makeCombnation(text, mongo)
+	graph := makeGraph(text[0 : len(text)-1])
+	return returnGraph(c, graph, origin)
+}
+
+func findClosest(c echo.Context, mongo *Mongo, origin string) error {
+	words := strings.Split(c.FormValue("words"), " ")
+	comb := make(map[string]string)
+	for i, word := range words {
+		copy := make([]string, len(words) - 1)
+		minus := 0
+		for j, add := range words {
+			if j == i {
+				minus++
+				continue
+			}
+			copy[j - minus] = add
+		}
+		comb[word] = getClosestWord(word, copy, mongo)
+	}
+	command := ""
+	for key, value := range comb {
+		command += key + " <-> " + value + "\n"
+	}
+	graph := makeGraph(command[0 : len(command)-1])
+	return returnGraph(c, graph, origin)
+}
+
+func returnGraph(c echo.Context, graph []byte, origin string) error {
+	b64 := base64.StdEncoding.EncodeToString(graph)
+	c.Response().Header().Add("Access-Control-Allow-Origin", origin)
+	return c.String(200, b64)
 }
 
 func makeGraph(text string) []byte {
@@ -71,10 +105,12 @@ func makeGraph(text string) []byte {
 
 //AI
 func makeCombnation(combString string, mongo *Mongo) {
-	split := strings.Split(combString, " <-> ")
-	word1 := mongo.FindOne(split[0])
-	word2 := mongo.FindOne(split[1])
-	mongo.WordComb(word1, word2)
+	for _, words := range strings.Split(combString, "\n") {
+		split := strings.Split(words, " <-> ")
+		word1 := mongo.FindOne(split[0])
+		word2 := mongo.FindOne(split[1])
+		mongo.WordComb(word1, word2)
+	}
 }
 
 func getClosestWord(target string, search []string, mongo *Mongo) string {
