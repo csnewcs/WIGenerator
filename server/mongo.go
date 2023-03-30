@@ -37,10 +37,12 @@ func (m Mongo) FindOne(word string) Word {
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			newWord := m.newWord(word)
+			newWord.Distances = make(map[string]int)
 			return newWord
 		}
 		panic(err)
 	}
+	result.Distances = make(map[string]int)
 	return result
 }
 func (m Mongo) newWord(word string) Word {

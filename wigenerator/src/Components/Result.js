@@ -5,7 +5,6 @@ import {Base64} from 'js-base64'
 let diagram
 export default function Result({mixList, setImageLink, url}) {
     const [image, setImage] = useState()
-    console.log(url)
     useEffect(() => {
         diagram = makeDiagram(mixList)
         getRenderImage(diagram, url)
@@ -58,11 +57,12 @@ export default function Result({mixList, setImageLink, url}) {
     }
 }
 async function getRenderImage(code, address) {
-    const url = 'https://' + address + '/'
+    const ㅕ기 = address.includes('localhost') ? ('http://' + address + '/') : ('https://' + address + '/')
+    console.log(url)
     const result = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded',ocalhost:8080
         },
         body: 'code=' + code
     })

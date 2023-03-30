@@ -35,6 +35,7 @@ func main() {
 		return mainPost(c, &mongo, origin)
 	})
 	server.POST("/find", func(c echo.Context) error {
+		fmt.Println("find")
 		return findClosest(c, &mongo, origin)
 	})
 
@@ -58,19 +59,8 @@ func mainPost(c echo.Context, mongo *Mongo, origin string) error {
 
 func findClosest(c echo.Context, mongo *Mongo, origin string) error {
 	words := strings.Split(c.FormValue("words"), " ")
-	comb := make(map[string]string)
-	for i, word := range words {
-		copy := make([]string, len(words) - 1)
-		minus := 0
-		for j, add := range words {
-			if j == i {
-				minus++
-				continue
-			}
-			copy[j - minus] = add
-		}
-		comb[word] = getClosestWord(word, copy, mongo)
-	}
+	comb := getClosestWords(words, mongo)
+	
 	command := ""
 	for key, value := range comb {
 		command += key + " <-> " + value + "\n"
@@ -104,7 +94,7 @@ func makeGraph(text string) []byte {
 
 
 //AI
-func makeCombnation(combString string, mongo *Mongo) {
+func makeCombnation(combString string, mongo *Mongo) { // 단어 조합을 DB에 등록
 	for _, words := range strings.Split(combString, "\n") {
 		split := strings.Split(words, " <-> ")
 		word1 := mongo.FindOne(split[0])
@@ -113,11 +103,19 @@ func makeCombnation(combString string, mongo *Mongo) {
 	}
 }
 
-func getClosestWord(target string, search []string, mongo *Mongo) string {
-	targetWord := mongo.FindOne(target)
-	searchWords := make([]Word, len(search))
-	for i, word := range search {
-		searchWords[i] = mongo.FindOne(word)
+func getClosestWords(wordStrings []string, mongo *Mongo) map[string]string { // 가장 가까운 단어들을 찾아서 반환
+	words := makeWords(wordStrings, mongo) // 단어들을 DB에서 찾기
+	wordCombs := make(map[string]string)
+	for _, word := range words { // 가까운 단어 찾기
+		wordCombs[word.Word] = word.GetClosestWords(&words).Word
 	}
-	return targetWord.FindClosest(searchWords).Word
+	return wordCombs
+}
+
+func makeWords(words []string, mongo *Mongo) []Word { // 단어들을 DB에서 찾아서 반환
+	returnWords := make([]Word, len(words))
+	for i, word := range words {
+		returnWords[i] = mongo.FindOne(word)
+	}
+	return returnWords
 }
