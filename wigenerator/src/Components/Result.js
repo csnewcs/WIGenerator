@@ -57,8 +57,7 @@ export default function Result({mixList, setImageLink, url}) {
     }
 }
 async function getRenderImage(code, address) {
-    const ㅕ기 = address.includes('localhost') ? ('http://' + address + '/') : ('https://' + address + '/')
-    console.log(url)
+    const url = address.includes('localhost') ? ('http://' + address + '/') : ('https://' + address + '/')
     const result = await fetch(url, {
         method: 'POST',
         headers: {
